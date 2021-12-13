@@ -552,3 +552,11 @@ img {
 .support-content .heading {
   font-size: 1.2rem;
 }
+
+.ico {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8vh 0;
+}

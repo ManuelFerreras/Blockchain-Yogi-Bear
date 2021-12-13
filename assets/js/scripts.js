@@ -219,9 +219,7 @@
       $(this).html($.i18n($(this).attr('data-i18n')));
     } );
    } );
-}
-// Enable debug
-$.i18n.debug = false;
+}a
 
 $(document).ready(function(){
 
