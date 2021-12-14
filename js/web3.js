@@ -1,4 +1,4 @@
-const icoAddress = "";
+const icoAddress = "0xe41b1f4dd1F275097241E9bE87F4a84c5A55496A";
 
 const icoLeftTimeText = document.querySelector('#ico-time');
 const icoLeftTokensText = document.querySelector('#ico-tokens');
