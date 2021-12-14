@@ -39,6 +39,7 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#wallets"><span data-i18n="dgc-wallets">Wallets</span></a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about"><span data-i18n="dgc-what-is-doge">What is Yogi Token</span></a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#start"><span data-i18n="dgc-get-started-now">How to get started</span></a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#ico"><span data-i18n="dgc-get-started-now">ICO</span></a></li>
                 </ul>
             </div>
         </div>
@@ -109,7 +110,7 @@
                     <!-- About Section Heading-->
                     
                     <div class="text-center mt-4">
-                        <a class="btn btn-secondary mb-2" href="https://knowyourmeme.com/memes/doge" target="_blank">
+                        <a class="btn btn-secondary mb-2" href="https://manuel-ferreras1.gitbook.io/yogi-token/" target="_blank">
                             <span data-i18n="dgc-doge-learn">Read our WhitePaper</span>
                         </a>
                         <br>
@@ -145,7 +146,7 @@
         </div>
     </section>
     <section class="bg-primary text-secondary mb-0" id="about">
-        <div class="container ico">
+        <div class="container ico" id="ico">
             <div class="ico-header">
                 <h2 data-i18n="dgc-what-is-doge" class="page-section-heading text-center text-uppercase text-secondary mb-0">Yogi Token ICO</h2>
                 <!-- Icon Divider-->
@@ -163,12 +164,13 @@
             <h4 id="ico-tokens">Tokens Left:</h4>
             <h4 id="ico-time">Time Left:</h4>
             <h4 id="ico-price">Token Price: BNB / 1 YOGI</h4>
+            <h4 id="ico-amount">Min Purchase: 1 YOGI - Max Purchase: 1 YOGI</h4>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Amount of Yogi Tokens To Buy" aria-label="Amount of Yogi Tokens To Buy" aria-describedby="basic-addon2">
+                <input type="number" min="0" class="form-control" placeholder="Amount of Yogi Tokens To Buy" aria-label="Amount of Yogi Tokens To Buy" aria-describedby="basic-addon2" id="ico-amount-buy">
                 <div class="input-group-append">
                 </div>
             </div>
-            <button type="button" class="btn btn-outline-success">Buy Yogi Tokens</button>
+            <button type="button" class="btn btn-outline-success" id="ico-buy-button">Buy Yogi Tokens</button>
 
         </div>
     </section>

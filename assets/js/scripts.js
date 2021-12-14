@@ -219,11 +219,10 @@
       $(this).html($.i18n($(this).attr('data-i18n')));
     } );
    } );
-}a
+}
 
 $(document).ready(function(){
 
-  enablei18n(false);
   initParticles();
   
 

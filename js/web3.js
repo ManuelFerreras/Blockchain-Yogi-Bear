@@ -1,8 +1,12 @@
-const icoAddress = "0xe41b1f4dd1F275097241E9bE87F4a84c5A55496A";
+const icoAddress = "0xE22D70b2C754d237cDd7FDccbf5A41BC35D2B7F6";
 
 const icoLeftTimeText = document.querySelector('#ico-time');
 const icoLeftTokensText = document.querySelector('#ico-tokens');
 const icoPriceText = document.querySelector('#ico-price');
+const icoPurchaseAmountText = document.querySelector('#ico-amount');
+
+const icoBuyAmountInput = document.querySelector('#ico-amount-buy');
+const icoBuyButton = document.querySelector('#ico-buy-button');
 
 var userAccount;
 var icoContract;
@@ -12,8 +16,8 @@ addEventListener('load', async function() {
       web3js = new Web3(window.ethereum);
 
       await web3js.eth.net.getId().then(res => {
-          if (res != 56) {
-              alert("Please Connect to BSC Network");
+          if (res != 3) {
+              alert("Please Connect to Ropsten Network");
           }
       });
   
@@ -29,10 +33,108 @@ addEventListener('load', async function() {
     userAccount = result[0];
     });
 
+    checkInfo();
+    icoBuyButton.addEventListener('click', async function() {
+      buyTokens();
+    });
+
 })
 
 
 
 async function buyTokens() {
+  var amountToBuy = icoBuyAmountInput.value;
 
+  var minPurchase;
+  var price;
+  var maxPurchase;
+  var tokensAvailable;
+  var end;
+
+  await icoContract.methods.minPurchase().call({from:userAccount}).then(res => {
+    minPurchase = res / 1000000000000000000;
+  });
+
+  await icoContract.methods.maxPurchase().call({from:userAccount}).then(res => {
+    maxPurchase = res / 1000000000000000000;
+  });
+
+  await icoContract.methods.price().call({from:userAccount}).then(res => {
+    price = res / 1000000000000000000;
+  });
+
+  await icoContract.methods.availableTokensICO().call({from:userAccount}).then(res => {
+    tokensAvailable = res / (10**18);
+  });
+
+  await icoContract.methods.end().call({from:userAccount}).then(res => {
+    if (res - (Date.now() / 1000) < 0) {
+      end = 0;
+    } else {
+      end = res - (Date.now() / 1000);
+    }
+  });
+
+
+
+
+  if (amountToBuy != "") {
+    if (minPurchase <= (amountToBuy * price) <= maxPurchase) {
+      if (amountToBuy < tokensAvailable){
+        if (end > 0) {
+          var sendValue = amountToBuy * price * 1000000000000000000;
+
+          await icoContract.methods.buy().send({from:userAccount, value:sendValue});
+        } else {
+          alert("Already finished.");
+        }
+      } else {
+        alert("Not enough tokens available.");
+      }
+    } else {
+      alert("Not between min and max Purchase.");
+    }
+  } else {
+    alert("Not a valid Number");
+  }
+}
+
+async function checkInfo() {
+
+  var price;
+  var end;
+  var minPurchase;
+  var maxPurchase;
+  var tokensAvailable;
+
+  await icoContract.methods.price().call({from:userAccount}).then(res => {
+    price = res / 1000000000000000000;
+  });
+
+  await icoContract.methods.end().call({from:userAccount}).then(res => {
+    if (res - (Date.now() / 1000) < 0) {
+      end = 0;
+    } else {
+      end = res - (Date.now() / 1000);
+    }
+  });
+
+  await icoContract.methods.minPurchase().call({from:userAccount}).then(res => {
+    minPurchase = res / 1000000000000000000;
+  });
+
+  await icoContract.methods.maxPurchase().call({from:userAccount}).then(res => {
+    maxPurchase = res / 1000000000000000000;
+  });
+
+  await icoContract.methods.availableTokensICO().call({from:userAccount}).then(res => {
+    tokensAvailable = res / (10**18);
+  });
+
+  icoLeftTokensText.innerText = `Tokens Left: ${tokensAvailable} YOGI`;
+  icoLeftTimeText.innerText = `Time Left: ${Math.floor(end)} Seconds`;
+  icoPriceText.innerText = `Token Price: ${price} BNB / 1 YOGI`;
+  icoPurchaseAmountText.innerText = `Min Purchase: ${minPurchase} BNB - Max Purchase: ${maxPurchase} BNB`;
+
+  setTimeout(1000, checkInfo());
 }
